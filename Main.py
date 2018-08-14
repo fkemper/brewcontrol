@@ -1,12 +1,12 @@
 from flowcontrol.Timer import Timer
-from flowcontrol.Scheduler import Scheduler
+#from flowcontrol.Scheduler import Scheduler
 from flowcontrol.Phase import Phase
 from flowcontrol.BrewProgram import BrewProgram
 from flowcontrol.BrewProgramExecuter import BrewProgramExcecuter
 import time
 import datetime
 
-myScheduler = Scheduler()
+#myScheduler = Scheduler()
 
 myBrewProgram = BrewProgram()
 #create some phases

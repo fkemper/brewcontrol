@@ -4,8 +4,8 @@ import time
 
 class BrewProgramExcecuter(BrewProgramStateMachineIf):
 
-    __brewProgram__ : None
-    __timer__ : None
+    __brewProgram__ =  None
+    __timer__ = None
 
     def __init__(self):
         pass
@@ -42,13 +42,13 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
 
     def stoppBrewProgram(self):
         if super().init():
-            # beende / breche die Ausführung des Programms ab. Gebe die verschiedneen Resourcen frei und stoppe diverse
+            # beende / breche die Ausfuehrung des Programms ab. Gebe die verschiedneen Resourcen frei und stoppe diverse
             # Prozesse
             print("to do implemt")
         else:
             print("wrong state. Can't execute stopp. Act state is %s", (self.states[self.actState]))
 
-    """zyklische Funktion die in Abhängigkeit von dem aktuellen Zustand des Brauprogramms"""
+    """zyklische Funktion die in Abhaengigkeit von dem aktuellen Zustand des Brauprogramms"""
     def tick(self):
         self.__timer__.tick()
         if (self.actState == self.STARTED):
