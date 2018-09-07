@@ -50,12 +50,12 @@ while (duration < 5):
 
 
 
-myScheduler.addPhase(phase1)
-myScheduler.addPhase(phase2)
+#myScheduler.addPhase(phase1)
+#myScheduler.addPhase(phase2)
 
-print(myScheduler.getTotalTime())
+#print(myScheduler.getTotalTime())
 
-print(myScheduler)
+#print(myScheduler)
 
 
 
