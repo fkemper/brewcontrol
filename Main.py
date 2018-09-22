@@ -3,23 +3,21 @@ from flowcontrol.Timer import Timer
 from flowcontrol.Phase import Phase
 from flowcontrol.BrewProgram import BrewProgram
 from flowcontrol.BrewProgramExecuter import BrewProgramExcecuter
+from flowcontrol.BrewController import BrewController
+from restconnector.RestServer import RestServer
+
 import time
 import datetime
 
-#myScheduler = Scheduler()
+myBrewController = BrewController()
+myRestServer = RestServer()
+myRestServer.setBrewController(myBrewController)
+myRestServer.start_server()
 
-myBrewProgram = BrewProgram()
-#create some phases
-phase1 = Phase("Einmaischen",0,0,10,40,False,True)
-phase2 = Phase("Eiweissrast",0,25,0,45,False,True)
-
-#add these phase to the program
-myBrewProgram.phases.append(phase1)
-myBrewProgram.phases.append(phase2)
 
 #create the excecuter instance
 myExcecuter = BrewProgramExcecuter()
-myExcecuter.setBrewProgram(myBrewProgram)
+#myExcecuter.setBrewProgram(myBrewProgram)
 
 print(myExcecuter.getTotalTime())
 myExcecuter.startBrewProgram()

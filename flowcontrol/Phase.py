@@ -24,3 +24,9 @@ class Phase():
     def getTargetTemp(self):
         return self.__temp
 
+    def getNotificationFlag(self):
+        return self.__notification
+
+    def __str__(self):
+        return "Hi"
+
