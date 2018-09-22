@@ -4,7 +4,7 @@ from flowcontrol.PID import PID
 
 if __name__ == "__main__":
 	
-	pid = PID(0.5, 1, 0.001)
+	pid = PID(0.5, 0, 0.001)
 
 	pid.SetPoint=0.5
 	pid.setSampleTime(0.01)
