@@ -1,10 +1,10 @@
-from flowcontrol.PID import PID
+from controller.PID import PID
 
 
 
 if __name__ == "__main__":
 	
-	pid = PID(0.5, 0, 0.001)
+	pid = PID(1, 0, 0.001)
 
 	pid.SetPoint=0.5
 	pid.setSampleTime(0.01)
