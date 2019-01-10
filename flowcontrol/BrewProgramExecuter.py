@@ -6,6 +6,8 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
 
     __brewProgram__ =  None
     __timer__ = None
+    __actPhase__ = None
+    __actPhaseId__ = 0
 
     def __init__(self):
         pass
@@ -13,8 +15,13 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
     def setBrewProgram(self, brewProgram):
         self.__brewProgram__ = brewProgram
 
+    def setDeviceManager(self, pDeviecManager):
+        self.__deviceManager = pDeviecManager
+
     def startBrewProgram(self):
         if super().start():
+            self.__actPhase__ =self.__brewProgram__.phases[self.__actPhaseId__]
+            self.__deviceManager.getHeating().setTemperature = self.__actPhase__.getTargetTemp()
             self.__timer__.start()
         else:
             print("wrong state. Can't execute start. Act state is %s", (self.states[self.actState]))
@@ -28,7 +35,9 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
     def initBrewProgram(self):
         if super().init():
             if (self.__brewProgram__ != None):
-                self.__timer__ = Timer(self.__brewProgram__.phases[0].getDuration())
+                self.__actPhaseId__ = 0
+                self.__timer__ = Timer(self.__brewProgram__.phases[self.__actPhaseId__].getDuration())
+                print("setze Temp auf wert ", self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp())
                 self.__timer__.init()
             # initialisere den Timer mit den Zeitwerten der 1. Phase aus dem Programm
             print("to do implemt")
@@ -36,8 +45,12 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
             print("wrong state. Can't execute init. Act state is %s", (self.states[self.actState]))
 
     def __nextPhase(self):
-        self.__timer__ = Timer(self.__brewProgram__.phases[1].getDuration())
+        self.__actPhaseId__ = self.__actPhaseId__ +1
+        self.__timer__ = Timer(self.__brewProgram__.phases[self.__actPhaseId__].getDuration())
         self.__timer__.init()
+
+        self.__deviceManager.getHeating().setTemperature = self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp()
+        print("setze Temp auf wert ", self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp())
         self.__timer__.start()
 
     def stoppBrewProgram(self):
@@ -53,12 +66,12 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
         self.__timer__.tick()
         if (self.actState == self.STARTED):
             if (self.__timer__.isElapsed()):
-                print("next Pjhase")
+                print("next Phase")
                 self.__nextPhase()
         if (self.actState == self.PAUSED):
             print("Programm pausiert")
 
-        print(self.__timer__)
+        #print(self.__timer__)
 
     """get the total actual still to expired duration of all phases in list"""
     def getTotalTime(self):

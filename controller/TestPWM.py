@@ -4,7 +4,7 @@ import time
 if __name__ == "__main__":
     myPWM = PWM()
     while 1:
-        myPWM.tick(0.2)
+        myPWM.tick(0.8)
         print("Ausgang : "+ str(myPWM.output))
 
 
