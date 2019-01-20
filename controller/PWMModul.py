@@ -2,7 +2,7 @@ import datetime
 
 class PWM():
 
-    __timebase__ = 0.5
+    __timebase__ = 5
     __lowerPoint__ = 0.0
     __heigherPoint__ = 1.0
     __diff__ = 0.0
@@ -12,6 +12,10 @@ class PWM():
 
 
     def __init__(self):
+        pass
+
+    def __init__(self,pTimeBase):
+        self.__timebase__ = pTimeBase
         pass
 
     def tick(self,input):

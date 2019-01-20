@@ -21,7 +21,7 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
     def startBrewProgram(self):
         if super().start():
             self.__actPhase__ =self.__brewProgram__.phases[self.__actPhaseId__]
-            self.__deviceManager.getHeating().setTemperature = self.__actPhase__.getTargetTemp()
+            self.__deviceManager.getHeating().setTargetTemperature(self.__actPhase__.getTargetTemp())
             self.__timer__.start()
         else:
             print("wrong state. Can't execute start. Act state is %s", (self.states[self.actState]))
@@ -49,7 +49,7 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
         self.__timer__ = Timer(self.__brewProgram__.phases[self.__actPhaseId__].getDuration())
         self.__timer__.init()
 
-        self.__deviceManager.getHeating().setTemperature = self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp()
+        self.__deviceManager.getHeating().setTargetTemperature(self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp())
         print("setze Temp auf wert ", self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp())
         self.__timer__.start()
 

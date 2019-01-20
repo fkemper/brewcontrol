@@ -27,7 +27,7 @@ myBrewProgram.phases.append(phase3)
 
 duration = 0
 while (duration > 500):
-    myTestHeating.tick()
+    myDeviceManager.tick()
     time.sleep(0.05)
     duration += 1
 
