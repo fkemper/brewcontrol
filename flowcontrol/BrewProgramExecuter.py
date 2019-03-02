@@ -1,4 +1,4 @@
-from flowcontrol.BrewProgramStateMachineIf import BrewProgramStateMachineIf
+from flowcontrol.BrewProgramStateMachineIf import BrewProgramStateMachineIf 
 from flowcontrol.Timer import Timer
 import time
 
@@ -63,15 +63,15 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
 
     """zyklische Funktion die in Abhaengigkeit von dem aktuellen Zustand des Brauprogramms"""
     def tick(self):
-        self.__timer__.tick()
         if (self.actState == self.STARTED):
             if (self.__timer__.isElapsed()):
                 print("next Phase")
                 self.__nextPhase()
         if (self.actState == self.PAUSED):
             print("Programm pausiert")
+        self.__timer__.tick()
 
-        #print(self.__timer__)
+        print(self.__timer__)
 
     """get the total actual still to expired duration of all phases in list"""
     def getTotalTime(self):
@@ -84,4 +84,7 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
         return totalDuration
 
 
-
+    def getActPhaseDatas(self):
+        datas = {}
+        datas.update(dict(phaseId=self.__actPhaseId__,phaseName=self.__brewProgram__.phases[self.__actPhaseId__].getName(),duration=self.__brewProgram__.phases[self.__actPhaseId__].getDuration(),targetTemp=self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp(),elapsedTime=self.__timer__.getElapsedTime()))
+        return datas

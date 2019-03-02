@@ -27,3 +27,6 @@ class DeviceManager():
 
     def getHeating(self):
         return self.__heating__
+
+    def getTempSensor(self):
+        return self.__tempSensor__

@@ -1,11 +1,14 @@
 from devices.DeviceStateMachineIf import DeviceStateMachineIf
+from base.Config import Config
 
 class TempSensor(DeviceStateMachineIf):
 
     __manualState__ = False
     __temperature__ = 0
+    confHolder = None
 
     def __init__(self):
+        self.confHolder = Config()
         pass
 
     def setAutomatic(self):
@@ -20,8 +23,11 @@ class TempSensor(DeviceStateMachineIf):
     def tick(self):
         #read the act value from the hardware input
         # 1-wire Slave Datei lesen
-        #file = open('/sys/bus/w1/devices/28-000005d2e508/w1_slave')
-        file = open('E:/1_slave')
+        if (self.confHolder.conf["simulation"]["simulation_activ"]):
+            print("vvvvvvvvvvvvvvvvvvvvv",self.confHolder.conf["simulation"]["simulation_activ"])
+            file = open(self.confHolder.conf["simulation"]["temperature_sensor_file_name"])
+        else:
+            file = open('/sys/bus/w1/devices/28-000005d2e508/w1_slave')
         filecontent = file.read()
         file.close()
 

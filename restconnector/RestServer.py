@@ -1,11 +1,16 @@
 import cherrypy
 from restconnector.DTOJsonCreator import DTOJsonCreator
+from base.Config import Config
 import json
 
 
 class RestServer(object):
 
     __brewController = None
+    __confHolder = None
+
+    def __init__(self):
+        self.confHolder = Config()
 
     def setBrewController(self,bctr):
         self.__brewController = bctr
@@ -24,6 +29,8 @@ class RestServer(object):
     get_phases.exposed = True
 
     def start_server(self):
-        cherrypy.quickstart(self, '/', 'app.conf')
+        cherrypy.config.update({'server.socket_host':
+                                self.confHolder.conf["interface"]["web_interface"]["host"],'server.socket_port':self.confHolder.conf["interface"]["web_interface"]["port"]})
+        cherrypy.quickstart(self, '/') 
 
 

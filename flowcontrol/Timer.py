@@ -2,7 +2,6 @@ import datetime
 from io import StringIO
 from flowcontrol.TimerStateMachineIf import TimerStateMachineIf
 
-
 class Timer(TimerStateMachineIf):
 
     __duration = None
