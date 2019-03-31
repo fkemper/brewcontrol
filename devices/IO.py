@@ -12,6 +12,7 @@ except ImportError:
 class IO:
 
     BCM = "BCM"
+    BOARD = "BOARD"
     OUT = "OUT"
     HIGH = "HIGH"
     LOW = "LOW"
@@ -39,6 +40,10 @@ class IO:
 
     def setup(self,gpioNumber,mode):
         if (not self.simulation):
+            if(mode==self.BCM):
+                mode = GPIO.BCM
+            elif(mode==self.BOARD):
+                mode = GPIO.BOARD
             GPIO.setup(gpioNumber,mode)
     def setmode(self,mode):
         if (not self.simulation):
