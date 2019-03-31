@@ -16,8 +16,6 @@ class IO:
     OUT = "OUT"
     HIGH = "HIGH"
     LOW = "LOW"
-    OUTPUT = "OUTPUT"
-    INPUT = "INPUT"
 
     __shared_state = {}
     data = None
@@ -42,10 +40,10 @@ class IO:
 
     def setup(self,gpioNumber,mode):
         if (not self.simulation):
-            if(mode==self.OUTPUT):
-                mode = GPIO.OUTPUT
-            elif(mode==self.INPUT):
-                mode = GPIO.INPUT
+            if(mode==self.OUT):
+                mode = GPIO.OUT
+            elif(mode==self.IN):
+                mode = GPIO.IN
             GPIO.setup(gpioNumber,mode)
         pass
     def setmode(self,mode):
