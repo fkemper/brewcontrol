@@ -22,7 +22,7 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
         if super().start():
             self.__actPhase__ =self.__brewProgram__.phases[self.__actPhaseId__]
             self.__deviceManager.getHeating().setTargetTemperature(self.__actPhase__.getTargetTemp())
-            self.__timer__.start()
+            #self.__timer__.start()
         else:
             print("wrong state. Can't execute start. Act state is %s", (self.states[self.actState]))
 
@@ -51,7 +51,7 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
 
         self.__deviceManager.getHeating().setTargetTemperature(self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp())
         print("setze Temp auf wert ", self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp())
-        self.__timer__.start()
+        #self.__timer__.start()
 
     def stoppBrewProgram(self):
         if super().init():
@@ -64,6 +64,11 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
     """zyklische Funktion die in Abhaengigkeit von dem aktuellen Zustand des Brauprogramms"""
     def tick(self):
         if (self.actState == self.STARTED):
+            if (self.__deviceManager.getTempSensor().getTemperature() >=
+                self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp() and
+                self.__timer__.actState != Timer.STARTED):
+                self.__timer__.start()
+                
             if (self.__timer__.isElapsed()):
                 print("next Phase")
                 self.__nextPhase()

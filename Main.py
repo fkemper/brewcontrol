@@ -21,7 +21,6 @@ import datetime
 class cycleTime():
 
     oldtimestamp = datetime.datetime.now()
-    
     def getTimeDelta(self):
         now = datetime.datetime.now()
         timedelta = (now - self.oldtimestamp) / datetime.timedelta(milliseconds=1)
@@ -29,7 +28,6 @@ class cycleTime():
         self.oldtimestamp = now
         return timedelta
 class controller():
-    
     def __init__(self):
 
         self.myBrewProgram = BrewProgram()
