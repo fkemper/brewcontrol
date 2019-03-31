@@ -39,15 +39,14 @@ class IO:
         self.temp_sensor = TempSensor()
 
     def setup(self,gpioNumber,mode):
+        pass
+    def setmode(self,mode):
         if (not self.simulation):
             if(mode==self.BCM):
                 mode = GPIO.BCM
             elif(mode==self.BOARD):
                 mode = GPIO.BOARD
-            GPIO.setup(gpioNumber,mode)
-    def setmode(self,mode):
-        if (not self.simulation):
-            GPIO.setmode(gpioNumber,mode)
+            GPIO.setmode(mode)
     def output(self,gpioNumber,state):
         if (not self.simulation):
             GPIO.output(gpioNumber,state)
