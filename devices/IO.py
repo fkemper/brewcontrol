@@ -79,8 +79,9 @@ class IO:
             if (os.path.exists(self.confHolder.conf["simulation"]["temperature_sensor_file_name"])): 
                 file = open(self.confHolder.conf["simulation"]["temperature_sensor_file_name"])
         else:
-            if (os.path.exist('/sys/bus/w1/devices/28-000005d2e508/w1_slave')):
-                file = open('/sys/bus/w1/devices/28-000005d2e508/w1_slave')
+            id = self.confHolder.conf["hardware"]["temp-sensor"]["id"])
+            if (os.path.exist('/sys/bus/w1/devices/'+str(id)+'/w1_slave')):
+                file = open('/sys/bus/w1/devices/'+str(id)+'/w1_slave')
         if (file != None):
             filecontent = file.read()
             file.close()
