@@ -14,6 +14,7 @@ class IO:
     BCM = "BCM"
     BOARD = "BOARD"
     OUT = "OUT"
+    IN = "IN"
     HIGH = "HIGH"
     LOW = "LOW"
 
