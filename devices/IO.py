@@ -16,6 +16,8 @@ class IO:
     OUT = "OUT"
     HIGH = "HIGH"
     LOW = "LOW"
+    OUTPUT = "OUTPUT"
+    INPUT = "INPUT"
 
     __shared_state = {}
     data = None
@@ -39,6 +41,12 @@ class IO:
         self.temp_sensor = TempSensor()
 
     def setup(self,gpioNumber,mode):
+        if (not self.simulation):
+            if(mode==self.OUTPUT):
+                mode = GPIO.OUTPUT
+            elif(mode==self.INPUT):
+                mode = GPIO.INPUT
+            GPIO.setup(gpioNumber,mode)
         pass
     def setmode(self,mode):
         if (not self.simulation):
