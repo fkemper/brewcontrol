@@ -21,7 +21,7 @@ class GPIOSim:
             with open("simulation.conf", "r") as conf_file:
                 self.data = json.load(conf_file)
                 print(self.data)
-       self.temp_sensor = devices.simulation.TempSensorSim()
+        self.temp_sensor = devices.simulation.TempSensorSim()
 
     def setup(self,gpioNumber,mode):
         print(gpioNumber,mode)
@@ -44,6 +44,6 @@ class GPIOSim:
         print()
         print(gpioNumber,state)
 
-     def tick():
-         self.temp_sensor.tick()
+    def tick():
+        self.temp_sensor.tick()
 
