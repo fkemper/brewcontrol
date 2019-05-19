@@ -14,8 +14,8 @@ class IO:
     BCM = "BCM"
     BOARD = "BOARD"
     OUT = "OUT"
-    HIGH = "HIGH"
-    LOW = "LOW"
+    HIGH = True
+    LOW = False
 
     __shared_state = {}
     data = None
@@ -53,22 +53,18 @@ class IO:
             elif(mode==self.BOARD):
                 mode = GPIO.BOARD
             GPIO.setmode(mode)
-    def output(self,gpioNumber,state):
+    def output(self,gpioNumber,state,negate):
+        if (negate):
+            state = not state
         if (not self.simulation):
             GPIO.output(gpioNumber,state)
         else:
-            event = self.data[str(gpioNumber)]["order"]
-            if (event == "SWITCH_HEATING_ON_OFF"):
-                if (state == "HIGH"):
-                    print("Heizung einschalten")
-                else:
-                    print("Heizung ausschalten")
-            if (event == "SWITCH_DISHER_ON_OFF"):
-                if (state == "HIGH"):
-                    print("Ruehrwerk einschalten")
-                else:
-                    print("Ruehrwerk ausschalten")
-            print()
+            states = self.data[str(gpioNumber)]["states"]
+            if (state):
+                event = states["high"]
+            else:
+                event = states["low"]
+            print(event)
             print(gpioNumber,state)
 
     def getTemperature(self):
@@ -79,8 +75,8 @@ class IO:
             if (os.path.exists(self.confHolder.conf["simulation"]["temperature_sensor_file_name"])): 
                 file = open(self.confHolder.conf["simulation"]["temperature_sensor_file_name"])
         else:
-            id = self.confHolder.conf["hardware"]["temp-sensor"]["id"])
-            if (os.path.exist('/sys/bus/w1/devices/'+str(id)+'/w1_slave')):
+            id = self.confHolder.conf["hardware"]["temp-sensor"]["id"]
+            if (os.path.exists('/sys/bus/w1/devices/'+str(id)+'/w1_slave')):
                 file = open('/sys/bus/w1/devices/'+str(id)+'/w1_slave')
         if (file != None):
             filecontent = file.read()

@@ -17,7 +17,7 @@ class DeviceManager():
         #self.__pid__.SetPoint = 0.5
         self.__pid__.setSampleTime(0.01)
         self.__pwm__ = PWM(10)
-        self.__heating__ = Heating(self.__tempSensor__,self.__pid__,self.__pwm__, 14 )
+        self.__heating__ = Heating(self.__tempSensor__,self.__pid__,self.__pwm__)
         pass
 
     def tick(self):
