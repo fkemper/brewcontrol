@@ -54,9 +54,7 @@ class IO:
             elif(mode==self.BOARD):
                 mode = GPIO.BOARD
             GPIO.setmode(mode)
-    def output(self,gpioNumber,state,negate):
-        if (negate):
-            state = not state
+    def output(self,gpioNumber,state):
         if (not self.simulation):
             GPIO.output(gpioNumber,state)
         else:

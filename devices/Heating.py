@@ -18,7 +18,8 @@ class Heating(DeviceStateMachineIf):
     __conf__ = None
     __negate__ = False
 
-    def __init__(self,pTempSensor=None,pController=None, pPwmModul = None, pGPIONumber=0):
+    def __init__(self,pTempSensor=None,pController=None, pPwmModul = None,
+                 pGPIONumber=14):
         super().init()
         self.__tempSensor__ = pTempSensor
         self.__controller__ = pController
