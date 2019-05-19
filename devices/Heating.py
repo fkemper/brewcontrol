@@ -1,14 +1,9 @@
 from devices.DeviceStateMachineIf import DeviceStateMachineIf
-<<<<<<< HEAD
-from devices.IO import IO
-from base.Config import Config
-=======
 #try:
 #    import RPi.GPIO as GPIO
 #except ImportError:
 #    import devices.simulation.GPIOSim as GPIO
 from devices.IO import IO as GPIO
->>>>>>> 674f7d30ffe6968abdae26f42857a993d567fd52
 
 class Heating(DeviceStateMachineIf):
 
@@ -29,21 +24,10 @@ class Heating(DeviceStateMachineIf):
         self.__controller__ = pController
         self.__pwmModul__ = pPwmModul
         self.__gpioNumber__ = pGPIONumber
-<<<<<<< HEAD
-        self.__io__ = IO()
-        self.__conf__ = Config()
-        #config the gpio
-        self.__gpioNumber__ = self.__conf__.conf["hardware"]["heating"]["pin-number"]
-        self.__negate__ = self.__conf__.conf["hardware"]["heating"]["negate"]
-
-        self.__io__.setmode(IO.BCM)
-        self.__io__.setup(self.__gpioNumber__, IO.OUT)
-=======
         self.gpio = GPIO()
         #config the gpio
         self.gpio.setmode(GPIO.BCM)
         self.gpio.setup(self.__gpioNumber__, GPIO.OUT)
->>>>>>> 674f7d30ffe6968abdae26f42857a993d567fd52
         pass
 
 
@@ -78,13 +62,6 @@ class Heating(DeviceStateMachineIf):
             print("wrong state. Can't execute setManualState. Act state is %s", (self.states[self.actState]))
 
     def tick(self):
-<<<<<<< HEAD
-        if (self.__controller__ != None):
-            self.__controller__.update(self.__tempSensor__.getTemperature())
-            self.__pwmModul__.tick(0.5)
-            print(str(self.__controller__.output),str(self.__pwmModul__.output))
-            self.__io__.output(self.__gpioNumber__, IO.HIGH, self.__negate__)
-=======
         print("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
         if (self.actState == self.AUTOMATIC):
             if (self.__controller__ != None):
@@ -92,6 +69,5 @@ class Heating(DeviceStateMachineIf):
                 self.__pwmModul__.tick(0.5)
                 print(str(self.__controller__.output),str(self.__pwmModul__.output))
                 self.gpio.output(self.__gpioNumber__, self.__pwmModul__.output)
->>>>>>> 674f7d30ffe6968abdae26f42857a993d567fd52
         pass
 

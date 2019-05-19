@@ -14,10 +14,7 @@ class IO:
     BCM = "BCM"
     BOARD = "BOARD"
     OUT = "OUT"
-<<<<<<< HEAD
-=======
     IN = "IN"
->>>>>>> 674f7d30ffe6968abdae26f42857a993d567fd52
     HIGH = True
     LOW = False
 
@@ -63,14 +60,6 @@ class IO:
         if (not self.simulation):
             GPIO.output(gpioNumber,state)
         else:
-<<<<<<< HEAD
-            states = self.data[str(gpioNumber)]["states"]
-            if (state):
-                event = states["high"]
-            else:
-                event = states["low"]
-            print(event)
-=======
             event = self.data[str(gpioNumber)]["order"]
             invert = self.data[str(gpioNumber)]["invert"]
             if (event == "SWITCH_HEATING_ON_OFF"):
@@ -86,7 +75,6 @@ class IO:
                 else:
                     print("Ruehrwerk ausschalten")
             print()
->>>>>>> 674f7d30ffe6968abdae26f42857a993d567fd52
             print(gpioNumber,state)
 
     def getTemperature(self):
@@ -98,10 +86,7 @@ class IO:
                 file = open(self.confHolder.conf["simulation"]["temperature_sensor_file_name"])
         else:
             id = self.confHolder.conf["hardware"]["temp-sensor"]["id"]
-<<<<<<< HEAD
-=======
             print(id)
->>>>>>> 674f7d30ffe6968abdae26f42857a993d567fd52
             if (os.path.exists('/sys/bus/w1/devices/'+str(id)+'/w1_slave')):
                 file = open('/sys/bus/w1/devices/'+str(id)+'/w1_slave')
         if (file != None):
