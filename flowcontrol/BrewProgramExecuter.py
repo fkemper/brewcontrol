@@ -22,12 +22,14 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
         if super().start():
             self.__actPhase__ =self.__brewProgram__.phases[self.__actPhaseId__]
             self.__deviceManager.getHeating().setTargetTemperature(self.__actPhase__.getTargetTemp())
+            self.__deviceManager.getHeating().setAutomatic()
             #self.__timer__.start()
         else:
             print("wrong state. Can't execute start. Act state is %s", (self.states[self.actState]))
 
     def pauseBrewProgram(self):
         if super().pause():
+            self.__deviceManager.getHeating().setManual()
             self.__timer__.pause()
         else:
             print("wrong state. Can't execute pause. Act state is %s", (self.states[self.actState]))

@@ -7,6 +7,7 @@ class TempSensor():
     __temperature__ = 0
     confHolder = None
     _x_ = 0
+    __energieFactor__ = 0
 
     def __init__(self):
         self.confHolder = Config()
@@ -16,8 +17,12 @@ class TempSensor():
         if (os.path.exists(self.confHolder.conf["simulation"]["temperature_sensor_file_name"])):
             file = open(self.confHolder.conf["simulation"]["temperature_sensor_file_name"],"w")
 
-            self._x_ = self._x_ + pTimeDelta * 0.25
+            self._x_ = self._x_ + pTimeDelta * 0.25 * self.__energieFactor__
             file.write("33 00 4b 46 ff ff 02 10 f4 : crc=f4 YES\n33 00 4b 46 ff ff 02 10 f4 t=%05d" % (self._x_))
             file.close()
             print("##################### %05d" % self._x_)
     pass
+
+    def setEnergieFactor(self, pFactor):
+        self.__energieFactor__ = pFactor
+

@@ -15,8 +15,8 @@ class IO:
     BOARD = "BOARD"
     OUT = "OUT"
     IN = "IN"
-    HIGH = "HIGH"
-    LOW = "LOW"
+    HIGH = True
+    LOW = False
 
     __shared_state = {}
     data = None
@@ -59,13 +59,16 @@ class IO:
             GPIO.output(gpioNumber,state)
         else:
             event = self.data[str(gpioNumber)]["order"]
+            invert = self.data[str(gpioNumber)]["invert"]
             if (event == "SWITCH_HEATING_ON_OFF"):
-                if (state == "HIGH"):
+                if ((state and not invert) or (not state and invert) == True): 
                     print("Heizung einschalten")
+                    self.temp_sensor.setEnergieFactor(1)
                 else:
                     print("Heizung ausschalten")
+                    self.temp_sensor.setEnergieFactor(-1)
             if (event == "SWITCH_DISHER_ON_OFF"):
-                if (state == "HIGH"):
+                if ((state and not invert) or (not state and invert) == True):
                     print("Ruehrwerk einschalten")
                 else:
                     print("Ruehrwerk ausschalten")
@@ -93,7 +96,7 @@ class IO:
             temperature = float(stringvalue[2:]) / 1000
 
             # Temperatur ausgeben
-            rueckgabewert = '%6.2f' % temperature
+            rueckgabewert = float('%6.2f' % temperature)
             return rueckgabewert
     def tick(self):
 
