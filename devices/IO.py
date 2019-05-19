@@ -14,6 +14,10 @@ class IO:
     BCM = "BCM"
     BOARD = "BOARD"
     OUT = "OUT"
+<<<<<<< HEAD
+=======
+    IN = "IN"
+>>>>>>> 674f7d30ffe6968abdae26f42857a993d567fd52
     HIGH = True
     LOW = False
 
@@ -59,12 +63,30 @@ class IO:
         if (not self.simulation):
             GPIO.output(gpioNumber,state)
         else:
+<<<<<<< HEAD
             states = self.data[str(gpioNumber)]["states"]
             if (state):
                 event = states["high"]
             else:
                 event = states["low"]
             print(event)
+=======
+            event = self.data[str(gpioNumber)]["order"]
+            invert = self.data[str(gpioNumber)]["invert"]
+            if (event == "SWITCH_HEATING_ON_OFF"):
+                if ((state and not invert) or (not state and invert) == True): 
+                    print("Heizung einschalten")
+                    self.temp_sensor.setEnergieFactor(1)
+                else:
+                    print("Heizung ausschalten")
+                    self.temp_sensor.setEnergieFactor(-1)
+            if (event == "SWITCH_DISHER_ON_OFF"):
+                if ((state and not invert) or (not state and invert) == True):
+                    print("Ruehrwerk einschalten")
+                else:
+                    print("Ruehrwerk ausschalten")
+            print()
+>>>>>>> 674f7d30ffe6968abdae26f42857a993d567fd52
             print(gpioNumber,state)
 
     def getTemperature(self):
@@ -76,6 +98,10 @@ class IO:
                 file = open(self.confHolder.conf["simulation"]["temperature_sensor_file_name"])
         else:
             id = self.confHolder.conf["hardware"]["temp-sensor"]["id"]
+<<<<<<< HEAD
+=======
+            print(id)
+>>>>>>> 674f7d30ffe6968abdae26f42857a993d567fd52
             if (os.path.exists('/sys/bus/w1/devices/'+str(id)+'/w1_slave')):
                 file = open('/sys/bus/w1/devices/'+str(id)+'/w1_slave')
         if (file != None):
@@ -87,7 +113,7 @@ class IO:
             temperature = float(stringvalue[2:]) / 1000
 
             # Temperatur ausgeben
-            rueckgabewert = '%6.2f' % temperature
+            rueckgabewert = float('%6.2f' % temperature)
             return rueckgabewert
     def tick(self):
 

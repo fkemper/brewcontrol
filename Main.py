@@ -32,7 +32,7 @@ class controller():
 
         self.myBrewProgram = BrewProgram()
         # create some phases
-        phase1 = Phase("Einmaischen", 0, 0, 30, 40, False, True)
+        phase1 = Phase("Einmaischen", 0, 0, 30, 25, False, True)
         phase2 = Phase("Eiweissrast", 0, 0, 5, 45, False, True)
         phase3 = Phase("MALTROSERAST", 0, 0, 3, 20, False, True)
 

@@ -39,10 +39,6 @@ class BrewProgramStateMachineIf:
         else:
             return False
 
-    def init(self):
-        self.actState = 10
-        return True
-
     def elapsed(self):
         if (self.actState == 20):
             self.actState = 50
