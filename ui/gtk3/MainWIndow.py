@@ -40,7 +40,6 @@ class MainWindow(Gtk.Window):
         #instances for the center-panel
         self.__lstStore__ = Gtk.ListStore(str)
         self.__treeView__ = Gtk.TreeView()
-        
         self.__lstStore__.append(["Hallo"])
         self.__treeView__.set_model(self.__lstStore__)
         renderer = Gtk.CellRendererText()
@@ -53,7 +52,9 @@ class MainWindow(Gtk.Window):
         self.brewProgrammView.create()
         self.centerPanel.pack2(self.brewProgrammView,False, False)
 
-        handlers = {"onToggled_btnStartPause" : self.on_button2_clicked}
+        handlers = {"onToggled_btnStartPause" : self.on_button2_clicked,
+                    "on_btnInit_clicked" :
+                    self.on_button3_clicked,"on_btnStopp_clicked":self.on_BtnStop_clicked}
         self.buttonControlBar.connectSignalHandlers(handlers)
 
 
@@ -71,7 +72,7 @@ class MainWindow(Gtk.Window):
     def update_gui(self):
         while(True):
             #self.lblActTemp.set_text(str(self.ctr.getTimeDelta()))
-            print(self.ctr.getActUiValues())
+            #print(self.ctr.getActUiValues())
 
             GLib.idle_add(self.footer.update,
                           self.ctr.getActUiValues())
@@ -91,4 +92,7 @@ class MainWindow(Gtk.Window):
         else:
             self.ctr.startBrewProgram()
             widget.set_label("Pause")
-
+    def on_button3_clicked(self, widget):
+        self.ctr.initBrewProgram()
+    def on_BtnStop_clicked(self, widget):
+        self.ctr.stopBrewProgram()

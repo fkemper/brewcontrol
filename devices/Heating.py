@@ -61,14 +61,15 @@ class Heating(DeviceStateMachineIf):
             self.__io__.output(self.__gpioNumber__,pState,self.__negate__)
         else:
             print("wrong state. Can't execute setManualState. Act state is %s", (self.states[self.actState]))
-
+    def getActState(self):
+        return self.gpio.input(self.__gpioNumber__)
     def tick(self):
-        print("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
+        #print("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
         if (self.actState == self.AUTOMATIC):
             if (self.__controller__ != None):
                 self.__controller__.update(self.__tempSensor__.getTemperature())
                 self.__pwmModul__.tick(0.5)
-                print(str(self.__controller__.output),str(self.__pwmModul__.output))
+                #print(str(self.__controller__.output),str(self.__pwmModul__.output))
                 self.gpio.output(self.__gpioNumber__, self.__pwmModul__.output)
         pass
 

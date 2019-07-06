@@ -17,6 +17,8 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="margin_left">5</property>
+            <property name="margin_right">5</property>
             <signal name="toggled" handler="onToggled_btnStartPause" swapped="no"/>
           </object>
           <packing>
@@ -26,17 +28,34 @@
         </child>
         <child>
           <object class="GtkButton" id="btnStopp">
-            <property name="label" translatable="yes">button</property>
+            <property name="label" translatable="yes">Stopp</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="margin_left">5</property>
             <property name="margin_right">5</property>
+            <signal name="clicked" handler="on_btnStopp_clicked" swapped="no"/>
           </object>
           <packing>
             <property name="left_attach">1</property>
             <property name="top_attach">0</property>
           </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnInit">
+            <property name="label" translatable="yes">Init</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_btnInit_clicked" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
       <packing>

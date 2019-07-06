@@ -8,7 +8,7 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
     __timer__ = None
     __actPhase__ = None
     __actPhaseId__ = 0
-
+    __counter__ = 0
     def __init__(self):
         pass
 
@@ -29,10 +29,15 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
 
     def pauseBrewProgram(self):
         if super().pause():
+            print("Pause....")
             self.__deviceManager.getHeating().setManual()
+            self.__counter__ +=  1
             self.__timer__.pause()
+            print(self.__counter__)
         else:
-            print("wrong state. Can't execute pause. Act state is %s", (self.states[self.actState]))
+            self.__counter__ +=  1
+            print(self.__counter__)
+            print("wrong stete. Can't execute pause. Act state is %s", (self.states[self.actState]))
 
     def initBrewProgram(self):
         if super().init():
@@ -56,9 +61,12 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
         #self.__timer__.start()
 
     def stoppBrewProgram(self):
-        if super().init():
+        if super().stopp():
             # beende / breche die Ausfuehrung des Programms ab. Gebe die verschiedneen Resourcen frei und stoppe diverse
             # Prozesse
+            self.__brewProgram__ = None
+            self.__actPhaseId__ = 0
+            self.__timer__.init()
             print("to do implemt")
         else:
             print("wrong state. Can't execute stopp. Act state is %s", (self.states[self.actState]))
@@ -70,15 +78,16 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
                 self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp() and
                 self.__timer__.actState != Timer.STARTED):
                 self.__timer__.start()
-                
             if (self.__timer__.isElapsed()):
                 print("next Phase")
                 self.__nextPhase()
         if (self.actState == self.PAUSED):
-            print("Programm pausiert")
+            #print("Programm pausiert")
+            pass
         self.__timer__.tick()
-
-        print(self.__timer__)
+        print("Aktueller Heitzunszustand: ",
+              self.__deviceManager.getHeating().getActState())
+       # print(self.__timer__)
 
     """get the total actual still to expired duration of all phases in list"""
     def getTotalTime(self):

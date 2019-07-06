@@ -39,7 +39,7 @@ class Timer(TimerStateMachineIf):
         if (super().pause()):
             pass
         else:
-            print("wrong state. Can't execute pause. Act state is %s", (self.states[self.actState]))
+            print("wrong state. Timer ist not started yet. Act state: ", (self.states[self.actState]))
 
     """return the True if the actual state is ELAPSED"""
     def isElapsed(self):

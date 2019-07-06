@@ -12,7 +12,7 @@ class BrewProgramStateMachineIf:
         pass
 
     def init(self):
-        if (self.actState == 0):
+        if (self.actState == 0 or self.actState == 30):
             self.actState = 10
             return True
         else:

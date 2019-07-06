@@ -48,9 +48,12 @@ class controller():
 
     def startBrewProgram(self):
         print("starte Brauprogramm")
-        self.prgExcecuter.initBrewProgram()
         self.prgExcecuter.startBrewProgram()
-
+    def initBrewProgram(self):
+        self.prgExcecuter.setBrewProgram(self.myBrewProgram)
+        self.prgExcecuter.initBrewProgram()
+    def stopBrewProgram(self):
+        self.prgExcecuter.stoppBrewProgram()
     def pauseBrewProgram(self):
         print("pausiere Brauprogramm")
         self.prgExcecuter.pauseBrewProgram()
@@ -65,7 +68,7 @@ class controller():
         else:
             uiValues.update(dict(actTemp='---'))
 
-        print(uiValues)
+        #print(uiValues)
         return uiValues
         #return 111.11
 

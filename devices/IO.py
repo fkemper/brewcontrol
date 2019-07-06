@@ -26,6 +26,7 @@ class IO:
     #simulated devices
     heating = None
     temp_sensor = None
+    io_array = {}
 
     def __init__(self):
         self.__dict__ = self.__shared_state
@@ -72,14 +73,25 @@ class IO:
                     print("Ruehrwerk einschalten")
                 else:
                     print("Ruehrwerk ausschalten")
-            print()
-            print(gpioNumber,state)
+            io_entry = self.io_array.get(gpioNumber)
+            if ( io_entry == None):
+                self.io_array.update({gpioNumber:state})
+            else:
+                self.io_array[gpioNumber] = state
+            #print(self.io_array)
+            #print(gpioNumber,state)
+
+    def input(self,gpioNumber):
+        if (not self.simulation):
+            return GPIO.input(gpioNumber)
+        else:
+            return self.io_array.get(gpioNumber)
 
     def getTemperature(self):
 
         # 1-wire Slave Datei lesen
         if (self.confHolder.conf["simulation"]["simulation_activ"]):
-            print("vvvvvvvvvvvvvvvvvvvvv",self.confHolder.conf["simulation"]["simulation_activ"])
+            #print("vvvvvvvvvvvvvvvvvvvvv",self.confHolder.conf["simulation"]["simulation_activ"])
             if (os.path.exists(self.confHolder.conf["simulation"]["temperature_sensor_file_name"])): 
                 file = open(self.confHolder.conf["simulation"]["temperature_sensor_file_name"])
         else:
