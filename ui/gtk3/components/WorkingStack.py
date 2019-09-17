@@ -14,11 +14,15 @@ class WorkingStack():
         self.stack = builder.get_object("stackWorkingStack")
         hBoxBrewProgramView = builder.get_object("hBoxBrewProgramView")
         hBoxMonitoringView = builder.get_object("hBoxMonitoringView")
-        self.stack.add_named(hBoxBrewProgramView,"Program")
+        #self.stack.add_named(hBoxBrewProgramView,"Program")
         self.stack.add_named(hBoxMonitoringView,"Monitoring")
         self.stack.set_visible_child(hBoxMonitoringView)
 
         return box
+        
+    def add_stack(self, stack_item, stack_name):
+        self.stack.add_named(stack_item,stack_name)
+
 
     def set_visible_stack(self, name):
         self.stack.set_visible_child_name(name)
