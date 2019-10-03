@@ -41,6 +41,9 @@ class Heating(DeviceStateMachineIf):
     def setAutomatic(self):
         super().setAutomatic()
 
+    def setOff(self):
+        super().setOff()
+        
     def setManual(self):
         super().setManual()
         if (self.actState == self.MANUAL):
@@ -64,12 +67,20 @@ class Heating(DeviceStateMachineIf):
     def getActState(self):
         return self.gpio.input(self.__gpioNumber__)
     def tick(self):
+        #self.__controller__.SetPoint = self.setTemperature
         #print("ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ")
         if (self.actState == self.AUTOMATIC):
             if (self.__controller__ != None):
                 self.__controller__.update(self.__tempSensor__.getTemperature())
-                self.__pwmModul__.tick(0.5)
-                #print(str(self.__controller__.output),str(self.__pwmModul__.output))
+                
+                #self.__controller__.update(18)
+                pwm_setpoint = (self.setTemperature -self.__controller__.output)/self.setTemperature 
+                print(str(pwm_setpoint))
+                self.__pwmModul__.tick(pwm_setpoint)
+                print(str(self.__controller__.output),str(self.__pwmModul__.output))
                 self.gpio.output(self.__gpioNumber__, self.__pwmModul__.output)
+        if (self.actState == self.OFF):
+            print("Zustand ist AAAAUUUUSSSS")
+            self.gpio.output(self.__gpioNumber__, False)
         pass
 

@@ -13,9 +13,10 @@ class DeviceManager():
     def __init__(self):
         #create all hardware-device-instances
         self.__tempSensor__ = TempSensor()
-        self.__pid__ = PID(1, 0, 0)
+        self.__pid__ = PID(2, 0, 0.000001)
         #self.__pid__.SetPoint = 0.5
-        self.__pid__.setSampleTime(0.01)
+        self.__pid__.setSampleTime(1)
+        self.__pid__.setWindup(1)
         self.__pwm__ = PWM(10)
         self.__heating__ = Heating(self.__tempSensor__,self.__pid__,self.__pwm__)
         pass

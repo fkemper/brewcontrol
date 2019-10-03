@@ -8,8 +8,9 @@ class controller():
     def __init__(self):
 
         self.myBrewProgram = BrewProgram()
+        self.myBrewProgram.name = "Test-Program"
         # create some phases
-        phase1 = Phase("Einmaischen", 0, 0, 30, 25, False, True)
+        phase1 = Phase("Einmaischen", 0, 0, 5, 25, False, True)
         phase2 = Phase("Eiweissrast", 0, 0, 5, 45, False, True)
         phase3 = Phase("MALTROSERAST", 0, 0, 3, 20, False, True)
 
@@ -40,13 +41,22 @@ class controller():
 
     def getActUiValues(self):
         uiValues = {}
-        if self.prgExcecuter.actState == BrewProgramExcecuter.STARTED:
-            uiValues.update(dict(actTemp=self.devManager.getTempSensor().getTemperature()))
-            uiValues.update(self.prgExcecuter.getActPhaseDatas())
+        footerViewValues = {}
+        monitoringViewValues = {}
+        brewprogrammViewValues = {}
+        
+        if (self.prgExcecuter.actState == BrewProgramExcecuter.STARTED):
+            footerViewValues.update(actTemp=self.devManager.getTempSensor().getTemperature())
+            footerViewValues.update(self.prgExcecuter.getActPhaseDatas())
+            footerViewValues.update(self.prgExcecuter.getActProgrammDatas())
+            monitoringViewValues.update(dict(actStateHeating=self.devManager.getHeating().getActState()))
+            #actStateDisher=self.devManager.getDisher().getActState())
+            brewprogrammViewValues.update(dict(actPhaseId=self.prgExcecuter.getActPhaseDatas()['phaseId']))
+            uiValues.update(dict(footerViewValues=footerViewValues,monitoringViewValues=monitoringViewValues,brewprogrammViewValues=brewprogrammViewValues))
         else:
             uiValues.update(dict(actTemp='---'))
 
-        #print(uiValues)
+        print(uiValues)
         return uiValues
         #return 111.11
 

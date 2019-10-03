@@ -7,31 +7,38 @@ from gi.repository import Gtk,GObject,GLib
 
 from ui.gtk3.components.Footer import Footer
 from ui.gtk3.components.SideBar import SideBar
+from ui.gtk3.components.MonitoringView import MonitoringView
 from ui.gtk3.components.WorkingStack import WorkingStack
 from ui.gtk3.components.ProgramView import ProgramView
 
 class MainWindow():
 
     def __init__(self):
+        self.footer = None
         pass
          
     def create(self):
 
         builder = Gtk.Builder.new_from_file("./ui/gtk3/components/MainWindow.glade")
         sidebar = SideBar()
+        
+        
         PanedBox = builder.get_object("PanedBox")
         PanedBox.add1(sidebar.create())
         self.workingStack = WorkingStack()
         PanedBox.add2(self.workingStack.create())
-        footer = Footer()
+        self.footer = Footer()
         hBoxFooter = builder.get_object("hBoxFooter")
-        hBoxFooter.pack_start(footer.create(),True,True,0 )
+        hBoxFooter.pack_start(self.footer.create(),True,True,0 )
         win = builder.get_object("MainWindow")
         win.connect("delete-event", Gtk.main_quit)
         sidebar.connectSignals(self.rowChanged)
         self.programm_view = ProgramView()
         workingStack_programView = self.programm_view.create() 
         self.workingStack.add_stack(workingStack_programView,"Program")
+        self.monitoring_view = MonitoringView()
+        workingStack_monitoring_view = self.monitoring_view.create()
+        self.workingStack.add_stack(workingStack_monitoring_view,"Monitoring")
         handlers_programview_actions = {"on_gtkBtnStart_clicked" : self.startBrewProgramAction, "on_gtkBtnStopp_clicked":self.stopBrewProgramAction, "on_gtkBtnPause_clicked":self.pauseBrewProgramAction}
         self.programm_view.connectSignalHandlers(handlers_programview_actions)            
         self.programm_view.setBrewprogramm(self.ctrl.getBrewProgram())
@@ -59,16 +66,25 @@ class MainWindow():
         while(True):
             #print("UI-Update-Thread started...")
             #self.lblActTemp.set_text(str(self.ctr.getTimeDelta()))
-            #print(self.ctr.getActUiValues())
-
+            datas = self.ctrl.getActUiValues()
+            #print(datas)
+            if (datas != None):
+                if (datas.get('footerViewValues') != None):
+                    #print("kkkkkkkkkKK",datas.get('footerViewValues'))
+                    GLib.idle_add(self.footer.update,[datas.get('footerViewValues')])
+                if (datas.get('monitoringViewValues') != None):
+                    GLib.idle_add(self.monitoring_view.update,[datas.get('monitoringViewValues')])
+           
+                #GLib.idle_add(self.footer.update,datas['footerViewValues'])
             #GLib.idle_add(self.footer.update,
                           #self.ctr.getActUiValues())
             time.sleep(0.1)
     def start(self):
-        myThread = threading.Thread(target=self.update_gui)
-        myThread.start()
+        
         win = self.create()
         win.show_all()
+        myThread = threading.Thread(target=self.update_gui)
+        myThread.start() 	
         Gtk.main()
 
 

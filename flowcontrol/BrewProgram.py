@@ -1,2 +1,3 @@
 class BrewProgram():
+    name = ""
     phases = []

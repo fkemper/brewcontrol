@@ -12,12 +12,8 @@ class WorkingStack():
 
         box = builder.get_object("hBoxStack")
         self.stack = builder.get_object("stackWorkingStack")
-        hBoxBrewProgramView = builder.get_object("hBoxBrewProgramView")
-        hBoxMonitoringView = builder.get_object("hBoxMonitoringView")
-        #self.stack.add_named(hBoxBrewProgramView,"Program")
-        self.stack.add_named(hBoxMonitoringView,"Monitoring")
-        self.stack.set_visible_child(hBoxMonitoringView)
-
+        
+        
         return box
         
     def add_stack(self, stack_item, stack_name):

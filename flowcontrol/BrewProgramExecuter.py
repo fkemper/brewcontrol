@@ -53,20 +53,26 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
 
     def __nextPhase(self):
         self.__actPhaseId__ = self.__actPhaseId__ +1
-        self.__timer__ = Timer(self.__brewProgram__.phases[self.__actPhaseId__].getDuration())
-        self.__timer__.init()
+        print("++++++++++++++++",len(self.__brewProgram__.phases)," ",self.__actPhaseId__)
+        if (self.__actPhaseId__ < len(self.__brewProgram__.phases)):
+            self.__timer__ = Timer(self.__brewProgram__.phases[self.__actPhaseId__].getDuration())
+            self.__timer__.init()
 
-        self.__deviceManager.getHeating().setTargetTemperature(self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp())
-        print("setze Temp auf wert ", self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp())
+            self.__deviceManager.getHeating().setTargetTemperature(self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp())
+            print("setze Temp auf wert ", self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp())
+            return True
+        else:
+            return False
         #self.__timer__.start()
 
     def stoppBrewProgram(self):
         if super().stopp():
             # beende / breche die Ausfuehrung des Programms ab. Gebe die verschiedneen Resourcen frei und stoppe diverse
             # Prozesse
-            self.__brewProgram__ = None
+            #self.__brewProgram__ = None
             self.__actPhaseId__ = 0
             self.__timer__.init()
+            self.__deviceManager.getHeating().setOff()
             print("to do implemt")
         else:
             print("wrong state. Can't execute stopp. Act state is %s", (self.states[self.actState]))
@@ -80,7 +86,11 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
                 self.__timer__.start()
             if (self.__timer__.isElapsed()):
                 print("next Phase")
-                self.__nextPhase()
+                if (self.__nextPhase()):
+                    pass
+                else:
+                    self.stoppBrewProgram()
+                
         if (self.actState == self.PAUSED):
             #print("Programm pausiert")
             pass
@@ -98,9 +108,14 @@ class BrewProgramExcecuter(BrewProgramStateMachineIf):
             else:
                 totalDuration = phase.getDuration()
         return totalDuration
+        
+    def getActProgrammDatas(self):
+        datas = {}
+        datas.update(dict(programName=self.__brewProgram__.name,totalTime=self.getTotalTime()))
+        return datas
 
 
     def getActPhaseDatas(self):
         datas = {}
-        datas.update(dict(phaseId=self.__actPhaseId__,phaseName=self.__brewProgram__.phases[self.__actPhaseId__].getName(),duration=self.__brewProgram__.phases[self.__actPhaseId__].getDuration(),targetTemp=self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp(),elapsedTime=self.__timer__.getElapsedTime()))
+        datas.update(dict(phaseId=self.__actPhaseId__,phaseName=self.__brewProgram__.phases[self.__actPhaseId__].getName(),duration=str(self.__brewProgram__.phases[self.__actPhaseId__].getDuration()),targetTemp=self.__brewProgram__.phases[self.__actPhaseId__].getTargetTemp(),elapsedTime=str(self.__timer__.getElapsedTime())))
         return datas
