@@ -36,4 +36,11 @@ class ProgramView():
             self.__lstStore__.append([phase.getName(),str(phase.getTargetTemp()),str(phase.getDuration())])
 
     def update(self, pDatas):
+        selection = self.treeVBrewProgramTable.get_selection()
+        model, treeiter = selection.get_selected()
+        #print(model[treeiter])
+        #selection.select_path(Gtk.TreePath(2))
+        #if (pDatas != None):
+        #   print (pDatas[0])
+        selection.select_path(pDatas[0].get("actPhaseId"))
         pass

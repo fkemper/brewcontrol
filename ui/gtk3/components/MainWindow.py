@@ -74,6 +74,8 @@ class MainWindow():
                     GLib.idle_add(self.footer.update,[datas.get('footerViewValues')])
                 if (datas.get('monitoringViewValues') != None):
                     GLib.idle_add(self.monitoring_view.update,[datas.get('monitoringViewValues')])
+                if (datas.get('brewprogrammViewValues') != None):
+                    GLib.idle_add(self.programm_view.update,[datas.get('brewprogrammViewValues')])
            
                 #GLib.idle_add(self.footer.update,datas['footerViewValues'])
             #GLib.idle_add(self.footer.update,
